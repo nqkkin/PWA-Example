@@ -25,6 +25,26 @@ window.onload = function() {
     document.getElementById('todo-form').onsubmit = addTodo;
 };
 
+// Function to register the service worker
+const registerServiceWorker = async () => {
+    if ("serviceWorker" in navigator) {
+        try {
+            const registration = await navigator.serviceWorker.register("/service-worker.js", {
+                scope: "/"
+            });
+            if (registration.installing) {
+                console.log("Service worker installing");
+            } else if (registration.waiting) {
+                console.log("Service worker installed");
+            } else if (registration.active) {
+                console.log("Service worker active");
+            }
+        } catch (error) {
+            console.error(`Registration failed with ${error}`);
+        }
+    }
+};
+
 function addTodo(e) {
     e.preventDefault();
 
@@ -98,3 +118,6 @@ function displayData() {
         }
     };
 }
+
+// Call the registerServiceWorker function to register the service worker
+registerServiceWorker();
